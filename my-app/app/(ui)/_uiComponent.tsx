@@ -1,26 +1,27 @@
 'use client';
 import React from 'react';
+import { useRef } from 'react';
 
 export default function UIComponent({ setNodes, setEdges }: { setNodes: React.Dispatch<React.SetStateAction<import('@xyflow/react').Node[]>>; setEdges: React.Dispatch<React.SetStateAction<import('@xyflow/react').Edge[]>> }): React.ReactElement {
-  
-  function startclick(event: React.MouseEvent<HTMLButtonElement>, type: any): void {
-    let lab: string = type;
+  const idCounter = useRef(0);
+  function startclick(event: React.MouseEvent<HTMLButtonElement>, type: string): void {
+    let lab = type;
+    
     if (type === "start") {
       type = "StartNode";
       lab = "start";
     } else if (type === "api") {
       type = "ApiNode";
       lab = "api";
-    }
-    else if(type==="end"){
-      type ="EndNode";
-      lab= "Endnode"
+    } else if (type === "end") {
+      type = "EndNode";
+      lab = "Endnode";
     }
   
     setNodes((nds: import('@xyflow/react').Node[]) => [
       ...nds,
       {
-        id: crypto.randomUUID(),
+        id: `${idCounter.current++}`,
         type,
         data: { label: lab },
         position: { x: 100 + nds.length * 100 + 5, y: 5 },

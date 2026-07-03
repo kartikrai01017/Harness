@@ -1,6 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
+import { useContext } from "react";
+import { WorkflowContext } from "../_context/WorkflowContext";
 
 export default function EndNodes(props: any) {
+   const { output } = useContext(WorkflowContext);
   return (
     <div>
       <Handle type="target" position={Position.Left}
@@ -29,6 +32,7 @@ export default function EndNodes(props: any) {
             <p className="text-xs text-neutral-500">
               Workflow Termination
             </p>
+            <textarea value={output} readOnly></textarea>
           </div>
         </div>
       </div>

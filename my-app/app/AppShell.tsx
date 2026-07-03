@@ -1,7 +1,10 @@
 'use client';
 import { createContext, ReactNode, useState } from 'react';
+import type { Edge,Node } from '@xyflow/react';
 
 export const NodebarContext = createContext(true);
+export const EdgeContext = createContext<Edge[]>([]);
+export const TypeContext = createContext<Node[]>([]);
 
 export default function AppShell({ children }: { children: ReactNode }) {
     const [nodebar, setNodebar] = useState(true);

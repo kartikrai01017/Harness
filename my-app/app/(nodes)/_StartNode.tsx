@@ -1,27 +1,18 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext } from "react";
 import { Handle, Position } from '@xyflow/react';
+import { WorkflowContext } from "../_context/WorkflowContext";
 
-export default function StartNode(props: any) {
-  const [inputValue, setInputValue] = useState("");
+
+export default function StartNode(props: any,) {
+  const { inputValue, setInputValue, runWorkflow } = useContext(WorkflowContext);
 
   const onChange = useCallback((evt: any) => {
     setInputValue(evt.target.value);
-  }, []);
+  }, [setInputValue]);
 
   const handleRun = useCallback(async () => {
-    if (!inputValue) return;
-    try {
-      const res = await fetch("http://localhost:8000/run", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ value: inputValue }),
-      });
-      const data = await res.json();
-      console.log("Run response:", data);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [inputValue]);
+    await runWorkflow();
+  }, [runWorkflow]);
 
   return (
     <div>
@@ -35,10 +26,12 @@ export default function StartNode(props: any) {
           </div>
           <div>
             <h3 className="font-semibold text-white">
-              Start Node
+              Start 
             </h3>
             <p className="text-xs text-neutral-500">
               Workflow Entry Point
+              
+              
             </p>
           </div>
         </div>
