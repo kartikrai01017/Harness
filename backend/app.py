@@ -2,6 +2,13 @@ from fastapi import FastAPI, Body  # type: ignore
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from pprint import pprint
+from dotenv import load_dotenv
+import os
+from execute_transversal import edgesort
+from run_ui import runui
+
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 app = FastAPI()
 app.add_middleware(
@@ -27,10 +34,7 @@ def run_flow(playload: dict):
 
 @app.post("/edges")
 def run_flw(playload: dict):
-    flow=playload["flow"]
-    edge=flow
-    print("edges below")
-    pprint(flow)
+    edgesort(value=playload)
     return{"status":"see"}
 
 @app.post("/values")
@@ -40,35 +44,9 @@ def run_value(Values: dict):
 
 @app.post("/run")
 def run(value: dict):
-    StateValue = value["value"]  
-    nodes = value["nodes"]
-    edges = value["edges"]
+    statevalue=runui(value=value)
 
-    current_id = nodes[0]["id"]
-    current_type = nodes[int(current_id)]["type"]
-
-    while current_type != "EndNode":
-
-        if current_type == "StartNode":
-            print("start")
-
-        elif current_type == "ApiNode":
-            print("api")
-
-        for edge in edges:
-            edge_source = edge["source"]
-            edge_target = edge["target"]
-
-            if edge_source == current_id:
-                current_id = edge_target
-                break
-
-        current_type = nodes[int(current_id)]["type"]
-
-    print("end")
-    print("Final node:", current_id)
-
-    return {"running": "yes"}
+    return {"running": statevalue}
 
 
 

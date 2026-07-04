@@ -53,6 +53,7 @@ export default function UIReactFlow({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        deleteKeyCode={["Delete", "Backspace"]}
         fitView
       >
         <Background color="#1a1a1a" gap={20} size={1} />
