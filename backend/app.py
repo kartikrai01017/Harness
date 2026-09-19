@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 import os
 from execute_transversal import edgesort
 from run_ui import runui
+from Execution_nodes.Edge_graph import Edge_graph
+from Execution_nodes.node_map import node_map_create
+from Execution_nodes.engine import execute
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
@@ -44,8 +47,12 @@ def run_value(Values: dict):
 
 @app.post("/run")
 def run(value: dict):
-    statevalue=runui(value=value)
-
+    statevalue:any=runui(value=value)
+    print (statevalue)
+    
+    Edge_graph(values=value)
+    node_map_create(values=value)
+    execute(values=value)
     return {"running": statevalue}
 
 

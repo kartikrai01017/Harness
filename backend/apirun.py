@@ -2,8 +2,7 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 
-# Load .env
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
 # Read API key
 api_key = os.getenv("GROQ_API_KEY")
@@ -17,7 +16,7 @@ client = Groq(api_key=api_key)
 
 def run_ai(prompt: str) -> str:
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",  # You can change this later
+        model="openai/gpt-oss-120b",  # You can change this later
         messages=[
             {
                 "role": "user",
